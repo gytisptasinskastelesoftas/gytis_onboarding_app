@@ -12,7 +12,7 @@ abstract class _SourcesStore with Store {
   _SourcesStore(this._sourcesUseCase);
 
   @observable
-  List<Source> sources = [];
+  SourcesState sourcesState = LoadingState();
 
   @observable
   bool isLoading = false;
@@ -26,11 +26,33 @@ abstract class _SourcesStore with Store {
       isLoading = true;
       errorMessage = null;
       final fetchedSources = await _sourcesUseCase.fetchSources(apiKey);
-      sources = fetchedSources;
+      sourcesState = SourcesState.listState(fetchedSources);
       isLoading = false;
     } catch (e) {
       errorMessage = 'Failed to fetch sources: $e';
       isLoading = false;
     }
   }
+}
+
+sealed class SourcesState {
+  factory SourcesState.listState(List<Source> sourceList) => ListState._(sourceList);
+}
+
+class EmptyState implements SourcesState {
+
+}
+
+class ErrorState implements SourcesState {
+
+}
+
+class LoadingState implements SourcesState {
+
+}
+
+class ListState implements SourcesState {
+  final List<Source> sourceList;
+
+  ListState._(this.sourceList);
 }
