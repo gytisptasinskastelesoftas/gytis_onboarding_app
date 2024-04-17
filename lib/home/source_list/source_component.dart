@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:gytis_onboarding_app/home/source_list/source_dependencies.dart';
 import 'package:gytis_onboarding_app/home/source_list/store/sources_store.dart';
 import 'package:provider/provider.dart';
 
-class SourceComponent extends StatefulWidget {
+class SourceComponent extends StatelessWidget {
   const SourceComponent({super.key});
 
   @override
-  State<SourceComponent> createState() => _SourceComponentState();
+  Widget build(BuildContext context) {
+    return const SourceDependencies(
+      child: _SourceBaseComponent(),
+    );
+  }
 }
 
-class _SourceComponentState extends State<SourceComponent> {
+class _SourceBaseComponent extends StatefulWidget {
+  const _SourceBaseComponent();
+
+  @override
+  State<_SourceBaseComponent> createState() => __SourceComponentBaseState();
+}
+
+class __SourceComponentBaseState extends State<_SourceBaseComponent> {
   @override
   void initState() {
     super.initState();
@@ -38,7 +50,8 @@ class _SourceComponentState extends State<SourceComponent> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     child: const Text('Retry'),
-                    onPressed: () => sourcesStore.fetchSources('09793d26702c482f90785b2fe3f3dd85'),
+                    onPressed: () => sourcesStore
+                        .fetchSources('09793d26702c482f90785b2fe3f3dd85'),
                   ),
                 ],
               ),
@@ -51,8 +64,15 @@ class _SourceComponentState extends State<SourceComponent> {
               itemBuilder: (context, index) {
                 final source = sourcesStore.sources[index];
                 return ListTile(
-                  title: Text(source.name),
-                  subtitle: Text(source.description),
+                  title: Text(source.name,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  subtitle: Column(
+                    children: [
+                      Text(source.description),
+                      const Divider(),
+                    ],
+                  ),
                 );
               },
             );

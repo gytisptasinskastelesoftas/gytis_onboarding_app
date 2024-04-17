@@ -1,15 +1,24 @@
-import 'package:json_annotation/json_annotation.dart';
 
-part 'source.g.dart';
-@JsonSerializable()
-class Source {
-  String id;
-  String name;
-  String description;
-  String url;
+import 'package:equatable/equatable.dart';
 
-  Source({required this.id, required this.name, required this.description, required this.url});
+class Source extends Equatable {
+  final String id;
+  final String name;
+  final String description;
+  final String url;
 
-  factory Source.fromJson(Map<String, dynamic> json) => _$SourceFromJson(json);
-  Map<String, dynamic> toJson() => _$SourceToJson(this);
+  const Source({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.url,
+  });
+
+  @override
+  List<Object?> get props => [
+    id,
+    name,
+    description,
+    url
+  ];
 }

@@ -1,3 +1,5 @@
+import 'package:gytis_onboarding_app/home/source_list/utils/mapper/source_mapper.dart';
+import 'package:gytis_onboarding_app/home/source_list/utils/network/source_response.dart';
 import 'package:gytis_onboarding_app/home/source_list/utils/service/sources_service.dart';
 import 'package:gytis_onboarding_app/home/source_list/utils/entity/source.dart';
 
@@ -8,12 +10,12 @@ class SourcesUseCase {
 
   Future<List<Source>> fetchSources(String apiKey) async {
     try {
-      // Fetch the sources using the service
-      List<Source> sources = await _sourcesService.fetchSources(apiKey);
-      // Here you can add additional business logic if needed
+      List<SourceResponse> sourceResponses = await _sourcesService.fetchSources(apiKey);
+      // Map Source
+      List<Source> sources = sourceResponses.map((response) => SourceMapper.sourceResponseToSource(response)).toList();
       return sources;
     } catch (e) {
-      throw Exception('Failed to fetch sources in use case: $e');
+      throw Exception('Failed to fetch sources: $e');
     }
   }
 }

@@ -1,17 +1,33 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gytis_onboarding_app/home/source_list/store/sources_store.dart';
 import 'package:gytis_onboarding_app/home/source_list/utils/service/sources_service.dart';
 import 'package:gytis_onboarding_app/home/source_list/utils/usecases/sources_use_case.dart';
 import 'package:provider/provider.dart';
-import 'package:dio/dio.dart';
 
-Widget createSourcesStoreProvider({required Widget child}) {
-  final dio = Dio();
-  final sourcesService = SourcesService(dio);
-  final sourcesUseCase = SourcesUseCase(sourcesService);
+class SourceDependencies extends StatelessWidget {
+  final Widget child;
 
-  return Provider<SourcesStore>(
-    create: (_) => SourcesStore(sourcesUseCase),
-    child: child,
-  );
+  const SourceDependencies({
+    super.key,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        Provider<SourcesService>(
+          create: (context) => SourcesService(Dio()),
+        ),
+        Provider<SourcesUseCase>(
+          create: (context) => SourcesUseCase(context.read<SourcesService>()),
+        ),
+        Provider<SourcesStore>(
+          create: (context) => SourcesStore(context.read<SourcesUseCase>()),
+        ),
+      ],
+      child: child,
+    );
+  }
 }

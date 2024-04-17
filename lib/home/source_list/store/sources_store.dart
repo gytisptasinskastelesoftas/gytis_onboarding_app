@@ -12,7 +12,7 @@ abstract class _SourcesStore with Store {
   _SourcesStore(this._sourcesUseCase);
 
   @observable
-  ObservableList<Source> sources = ObservableList<Source>();
+  List<Source> sources = [];
 
   @observable
   bool isLoading = false;
@@ -24,10 +24,9 @@ abstract class _SourcesStore with Store {
   Future<void> fetchSources(String apiKey) async {
     try {
       isLoading = true;
-      errorMessage = null; // Clear previous errors
-      sources.clear();
+      errorMessage = null;
       final fetchedSources = await _sourcesUseCase.fetchSources(apiKey);
-      sources.addAll(fetchedSources);
+      sources = fetchedSources;
       isLoading = false;
     } catch (e) {
       errorMessage = 'Failed to fetch sources: $e';
