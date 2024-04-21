@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:gytis_onboarding_app/home/article/article_dependencies.dart';
+import 'package:gytis_onboarding_app/home/article/article_details/article_details_component.dart';
 import 'package:gytis_onboarding_app/home/article/store/articles_store.dart';
-import 'package:gytis_onboarding_app/home/source_list/utils/entity/source.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -66,6 +66,14 @@ class _ArticleComponentBaseState extends State<ArticleComponentBase> {
                 itemBuilder: (context, index) {
                   final article = state.articleList[index];
                   return ListTile(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ArticleDetailsComponent(article: article),
+                        ),
+                      );
+                    },
                     leading: article.urlToImage != null ? Image.network(
                       article.urlToImage!,
                       fit: BoxFit.cover,

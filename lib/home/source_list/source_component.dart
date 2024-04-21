@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:gytis_onboarding_app/home/article/article_component.dart';
 import 'package:gytis_onboarding_app/home/source_list/source_dependencies.dart';
 import 'package:gytis_onboarding_app/home/source_list/store/sources_store.dart';
-import 'package:gytis_onboarding_app/home/source_list/utils/entity/source.dart';
 import 'package:provider/provider.dart';
 
 class SourceComponent extends StatelessWidget {

@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:gytis_onboarding_app/home/article/store/articles_store.dart';
-import 'package:gytis_onboarding_app/home/article/util/service/article_service.dart';
+import 'package:gytis_onboarding_app/home/article/article_details/store/article_details_store.dart';
 import 'package:gytis_onboarding_app/home/article/util/usecase/article_use_case.dart';
 import 'package:provider/provider.dart';
+import 'package:gytis_onboarding_app/home/article/util/service/article_service.dart';
 
-class ArticleDependencies extends StatelessWidget {
+class ArticleDetailsDependencies extends StatelessWidget {
   final Widget child;
 
-  const ArticleDependencies({
+  const ArticleDetailsDependencies({
     super.key,
     required this.child,
   });
@@ -17,14 +17,17 @@ class ArticleDependencies extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider<Dio>(
+          create: (context) => Dio(),
+        ),
         Provider<ArticlesService>(
-          create: (context) => ArticlesService(Dio()),
+          create: (context) => ArticlesService(context.read<Dio>()),
         ),
         Provider<ArticlesUseCase>(
           create: (context) => ArticlesUseCase(context.read<ArticlesService>()),
         ),
-        Provider<ArticlesStore>(
-          create: (context) => ArticlesStore(context.read<ArticlesUseCase>()),
+        Provider<ArticleDetailsStore>(
+          create: (context) => ArticleDetailsStore(context.read<ArticlesUseCase>()),
         ),
       ],
       child: child,

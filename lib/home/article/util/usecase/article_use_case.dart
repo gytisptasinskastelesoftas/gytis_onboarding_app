@@ -15,4 +15,8 @@ class ArticlesUseCase {
     List<Article> articles = articleResponses.map((response) => ArticleMapper.articleResponseToArticle(response)).toList();
     return articles;
   }
+
+  Future<Article> fetchArticleById(String articleId, String apiKey) async {
+    return await _articlesService.fetchArticleById(articleId, apiKey);
+  }
 }

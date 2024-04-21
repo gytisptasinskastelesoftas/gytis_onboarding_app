@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gytis_onboarding_app/app/app_routes.dart';
-import 'package:gytis_onboarding_app/home/home_component.dart';
-import 'package:gytis_onboarding_app/tutorial/tutorial_component.dart';
 
 void main() {
   runApp(
